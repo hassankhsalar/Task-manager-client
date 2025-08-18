@@ -10,10 +10,12 @@ import ManageUsers from "./pages/Admin/ManageUsers";
 import UserDashboard from "./pages/User/UserDashboard";
 import MyTasks from "./pages/User/MyTasks";
 import ViewTaskDetails from "./pages/User/ViewTaskDetails";
+import UserProvider from "./context/userContext";
 
 function App() {
   return (
-    <>
+    <UserProvider>
+    <div>
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -35,7 +37,8 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </>
+    </div>
+    </UserProvider>
   );
 }
 
