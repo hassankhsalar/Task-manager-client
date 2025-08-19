@@ -3,9 +3,9 @@ import AuthLayout from "../../components/layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
-import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-  const {updateUser} = useContext(UserContext)
+  const { updateUser } = useContext(UserContext);
 
   //handles login form submit
   const handleLogin = async (e) => {
@@ -33,27 +33,34 @@ const Login = () => {
 
     //login API call
     try {
-        const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
-          email,
-          password,
-        });
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
 
-        const { token, role } = response.data;
+      const { token, role } = response.data;
 
-        if (token) {
-          localStorage.setItem("token", token);
-          updateUser(response.data)
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
 
-          //Redirecting based on role type
-          if (role === "admin") {
-            navigate("/admin/dashboard");
-          } else {
-            navigate("/user/dashboard");
-          }
+        //Redirecting based on role type  //later added
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (role === "user") {
+          navigate("/user/dashboard");
+        } else {
+          setError("Invalid user role");
         }
+      }
 
+      //later added for checking
+      if (!token || !role) {
+        setError("Invalid response from server");
+        return;
+      }
     } catch (error) {
-      if(error.response && error.response.data.message) {
+      if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
         setError("Something went wrong, Please try again");
@@ -70,32 +77,36 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleLogin}>
-            {/* Email input */}
-            <Input 
+          {/* Email input */}
+          <Input
             value={email}
             onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
             placeholder="salar@example.com"
             type="text"
-            />
+          />
 
-            {/* Password */}
-            <Input 
+          {/* Password */}
+          <Input
             value={password}
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
             placeholder="Minimum * chars"
             type="password"
-            />
+          />
 
-            {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
-            
-        <button type="Submit" className="btn-primary">Login</button>
+          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-        <p className="text-[13px] text-slate-800 mt-3">Dont have an account? {" "}
-            <Link to="/signup" className="font-medium underline">Signup</Link>
-             </p>
+          <button type="submit" className="btn-primary">
+            Login
+          </button>
 
+          <p className="text-[13px] text-slate-800 mt-3">
+            Dont have an account?{" "}
+            <Link to="/signup" className="font-medium underline">
+              Signup
+            </Link>
+          </p>
         </form>
       </div>
     </AuthLayout>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "./apiPaths";
+import { API_PATHS, BASE_URL } from "./apiPaths";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,  //setting base URL
@@ -10,11 +10,12 @@ const axiosInstance = axios.create({
   },
 });
 
-// Request Interceptor to make sure of authentication
+// Request Interceptor to make sure of authentication //later added
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("token");
-    if (accessToken) {
+    // Skip Authorization header for login endpoint
+    if (accessToken && config.url !== API_PATHS.AUTH.LOGIN) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
