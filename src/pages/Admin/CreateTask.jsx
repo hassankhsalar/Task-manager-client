@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LuTrash2 } from "react-icons/lu";
 import { PRIORITY_DATA } from "../../utils/data";
 import SelectDropdown from "../../components/Inputs/SelectDropdown";
+import SelectUsers from "../../components/Inputs/SelectUsers";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const CreateTask = () => {
     title: "",
     description: "",
     priority: "Low",
-    dueDate: null,
+    dueDate: "",   //dueDate: null, changed
     assignedTo: [],
     todoChecklist: [],
     attachments: [],
@@ -130,7 +131,7 @@ const CreateTask = () => {
                 </label>
 
                 <input
-                  placeholder="Create App UI"
+                  //placeholder="Create App UI"
                   className="form-input"
                   value={taskData.dueDate}
                   onChange={({ target }) =>
