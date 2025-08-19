@@ -31,7 +31,7 @@ function App() {
           </Route>
 
           {/* User routes */}
-          <Route element={<PrivateRoutes allowedRoles={["admin"]} />}>
+          <Route element={<PrivateRoutes allowedRoles={["member"]} />}>
             <Route path="/user/dashboard" element={<UserDashboard />} />
             <Route path="/user/tasks" element={<MyTasks />} />
             <Route path="/user/task-details/:id" element={<ViewTaskDetails />} />
@@ -53,7 +53,11 @@ export default App;
 const Root = () => {
   const { user, loading } = useContext(UserContext);
 
-  if (loading) return <Outlet />;
+  // if (loading) return <Outlet />;
+
+  if (loading) {
+    return <div>Loading...</div>; // added later
+  }
 
   if (!user) {
     return <Navigate to="/login" />;

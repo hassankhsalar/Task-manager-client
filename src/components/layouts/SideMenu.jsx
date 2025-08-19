@@ -38,7 +38,7 @@ const SideMenu = ({ activeMenu }) => {
       <div className="flex flex-col items-center justify-center mb-7 pt-5">
         <div className="relative">
           <img
-            src={user?.profileImageUrl || ""}
+            src={user?.profileImageUrl || " "}
             alt="profile image"
             className="w-20 h-20 bg-slate-400 rounded-full"
           />
@@ -47,7 +47,7 @@ const SideMenu = ({ activeMenu }) => {
         {user?.role === "admin" && (<div className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">Admin</div>)}
 
         <h5 className="text-gray-950 font-medium leading-6 mt-3">{user?.name || ""}</h5>
-        <p className="text-[12px] text-gray-500">{user?.email || ""}</p>
+        <p className="text-[12px] text-gray-500">{user?.email || " "}</p>
       </div>
 
       {sideMenuData.map((item, index) => (
